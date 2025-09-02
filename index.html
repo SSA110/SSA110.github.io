@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSA110 - Health Informatics Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 2rem 0;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #4299e1, #667eea);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Sections */
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            margin: 2rem 0;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .profile-placeholder {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        /* Education Section */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .education-card {
+            background: linear-gradient(135deg, #ffffff, #f7fafc);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .education-header h3 {
+            color: #4a5568;
+            font-size: 1.3rem;
+        }
+
+        .date {
+            color: #718096;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .education-card h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .education-details {
+            list-style: none;
+        }
+
+        .education-details li {
+            padding: 0.3rem 0;
+            color: #718096;
+        }
+
+        /* Experience Section */
+        .experience-timeline {
+            position: relative;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+
+        .experience-card {
+            position: relative;
+            margin-bottom: 2rem;
+            margin-left: 60px;
+            background: linear-gradient(135deg, #ffffff, #f7fafc);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .experience-number {
+            position: absolute;
+            left: -90px;
+            top: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .experience-header {
+            margin-bottom: 1rem;
+        }
+
+        .experience-header h3 {
+            color: #4a5568;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .company {
+            color: #667eea;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .experience-details {
+            list-style: none;
+        }
+
+        .experience-details li {
+            padding: 0.5rem 0;
+            color: #718096;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .experience-details li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .skill-category h3 {
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+
+        .skill-category ul {
+            list-style: none;
+        }
+
+        .skill-category li {
+            padding: 0.5rem 0;
+            color: #718096;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #ffffff, #f7fafc);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-card h3 {
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+
+        .project-card p {
+            color: #718096;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            text-align: center;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-timeline::before {
+                left: 15px;
+            }
+
+            .experience-card {
+                margin-left: 45px;
+            }
+
+            .experience-number {
+                left: -75px;
+                width: 50px;
+                height: 50px;
+                font-size: 1rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Sajjad Ali</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section id="home" class="hero">
+            <h1>Sajjad Ali PharmD, MSHI</h1>
+            <p>Health Informatics Graduate | Data Analyst | Driving Innovation in Healthcare</p>
+            <a href="#projects" class="btn">View My Work</a>
+        </section>
+
+        <section id="about" class="section">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="profile-placeholder">S</div>
+                </div>
+                <div class="about-text">
+                    <p>I'm a PharmD graduate and Master's student in Health Informatics at the University of Pittsburgh (4.0 GPA). My goal is to make healthcare more proactive, efficient, and patient-centered by applying <strong>data analytics, AI, and informatics</strong>.</p>
+                    <br>
+                    <p>I combine my background in <strong>clinical research</strong> with expertise in <strong>SQL, Python, R, Tableau, and health data systems</strong> to improve compliance, streamline workflows, and support better decision-making in healthcare organizations.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="section">
+            <h2>Education</h2>
+            <div class="education-grid">
+                <div class="education-card">
+                    <div class="education-header">
+                        <h3>University of Pittsburgh</h3>
+                        <span class="date">Aug 2024 - May 2026</span>
+                    </div>
+                    <h4>🎓 Master of Science in Health Informatics (MSHI)</h4>
+                    <ul class="education-details">
+                        <li><strong>GPA:</strong> 4.0/4.0</li>
+                        <li><strong>Focus:</strong> Data Analytics, Health Informatics Systems, AI in Healthcare</li>
+                    </ul>
+                </div>
+                <div class="education-card">
+                    <div class="education-header">
+                        <h3>University of Karachi</h3>
+                        <span class="date">2017 - 2021</span>
+                    </div>
+                    <h4>🎓 Doctor of Pharmacy (PharmD)</h4>
+                    <ul class="education-details">
+                        <li><strong>Specialization:</strong> Clinical Research & Medical Sciences</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section">
+            <h2>Professional Experience</h2>
+            <div class="experience-timeline">
+                <div class="experience-card">
+                    <div class="experience-number">1</div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <h3>Health Data Analyst</h3>
+                            <span class="company">Panacea Healthcare Solutions</span>
+                            <span class="date">Apr 2025 - Present</span>
+                        </div>
+                        <ul class="experience-details">
+                            <li>Built a <strong>470+ field claims data dictionary</strong> to standardize definitions and strengthen governance</li>
+                            <li>Automated <strong>CMS addenda downloads & change-detection</strong> (Python/Selenium), saving ~90% manual effort</li>
+                            <li>Designed <strong>4 ERDs</strong> illustrating patient-provider-payer-financial flows</li>
+                            <li>Documented <strong>EDI Claims & staging metadata</strong>, improving data quality</li>
+                            <li>Collaborated with <strong>3 cross-functional teams</strong> on revenue cycle analytics</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-card">
+                    <div class="experience-number">2</div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <h3>Regulatory Affairs Coordinator</h3>
+                            <span class="company">DM Clinical Research</span>
+                            <span class="date">Mar 2024 - Jul 2024</span>
+                        </div>
+                        <ul class="experience-details">
+                            <li>Increased trial adherence by <strong>20%</strong> using Python/SQL analytics</li>
+                            <li>Built <strong>Tableau dashboards</strong> for real-time patient tracking</li>
+                            <li>Achieved <strong>100% audit readiness</strong> through data integrity measures</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-card">
+                    <div class="experience-number">3</div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <h3>Quality Assurance Associate II</h3>
+                            <span class="company">Revival Research Institute</span>
+                            <span class="date">2023</span>
+                        </div>
+                        <ul class="experience-details">
+                            <li>Reduced discrepancies by <strong>15%</strong> and improved reporting efficiency by <strong>20%</strong></li>
+                            <li>Designed <strong>Tableau monitoring tools</strong> for real-time clinical data oversight</li>
+                            <li>Streamlined QA processes across <strong>EDC platforms</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-card">
+                    <div class="experience-number">4</div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <h3>Institutional Business Officer</h3>
+                            <span class="company">Pfizer (Internship)</span>
+                            <span class="date">May 2022 - Aug 2022</span>
+                        </div>
+                        <ul class="experience-details">
+                            <li>Expanded institutional accounts across <strong>Karachi Division</strong></li>
+                            <li>Optimized stock distribution through coordinated order processing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Programming Languages</h3>
+                    <ul>
+                        <li>Python</li>
+                        <li>R</li>
+                        <li>SQL</li>
+                        <li>JavaScript</li>
+                        <li>HTML/CSS</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Healthcare Technologies</h3>
+                    <ul>
+                        <li>Electronic Health Records (EHR)</li>
+                        <li>Health Information Systems</li>
+                        <li>Medical Databases</li>
+                        <li>Healthcare APIs</li>
+                        <li>Clinical Data Standards</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Data Analysis & ML</h3>
+                    <ul>
+                        <li>Machine Learning</li>
+                        <li>Statistical Analysis</li>
+                        <li>Data Visualization</li>
+                        <li>Predictive Modeling</li>
+                        <li>Healthcare Analytics</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Professional Certifications</h3>
+                    <ul>
+                        <li>Deloitte Future of Work Institute</li>
+                        <li>Google Advanced Data Analytics</li>
+                        <li>Machine Learning Specialization</li>
+                        <li>Data Management eCRF Training</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <h2>Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Breast Cancer Prediction Model</h3>
+                    <p>Developed a machine learning model to predict breast cancer diagnosis using patient data. Applied various classification algorithms and achieved high accuracy in early detection prediction.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Healthcare</span>
+                        <span class="tag">Data Analysis</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/SSA110/Breast-cancer-Prediction" class="project-link">View Code</a>
+                        <a href="#" class="project-link">Live Demo</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>Python Healthcare Analytics</h3>
+                    <p>Comprehensive Python project focusing on healthcare data analysis, including patient outcome predictions and clinical workflow optimization.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Data Science</span>
+                        <span class="tag">Analytics</span>
+                        <span class="tag">Healthcare</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/SSA110/Python-Project" class="project-link">View Code</a>
+                        <a href="#" class="project-link">Documentation</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>CMS Addenda Automation</h3>
+                    <p>Built Python/Selenium workflow to monitor CMS OPPS/HCPCS updates, detect changes, auto-download files, and log them for compliance at Panacea.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Selenium</span>
+                        <span class="tag">CMS Integration</span>
+                        <span class="tag">Compliance</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">View Code</a>
+                        <a href="#" class="project-link">Case Study</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>Claims Data Dictionary</h3>
+                    <p>Documented 470+ claims-related fields with business definitions to improve governance and analytics clarity at Panacea.</p>
+                    <div class="project-tags">
+                        <span class="tag">Data Governance</span>
+                        <span class="tag">Healthcare Claims</span>
+                        <span class="tag">Documentation</span>
+                        <span class="tag">Analytics</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">View Dictionary</a>
+                        <a href="#" class="project-link">Documentation</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>Predictive Modeling</h3>
+                    <p>Built heart disease risk prediction models using clinical datasets to support early intervention strategies.</p>
+                    <div class="project-tags">
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Clinical Data</span>
+                        <span class="tag">Predictive Analytics</span>
+                        <span class="tag">Healthcare</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/SSA110/Breast-cancer-Prediction" class="project-link">View Code</a>
+                        <a href="#" class="project-link">Live Demo</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>Stroke Supervision Database</h3>
+                    <p>Designed ER model, UI mockups, and SQL backend for real-time patient tracking and reporting in emergency departments.</p>
+                    <div class="project-tags">
+                        <span class="tag">Database Design</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">Emergency Medicine</span>
+                        <span class="tag">Patient Tracking</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">View Schema</a>
+                        <a href="#" class="project-link">UI Mockups</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>Get In Touch</h2>
+            <div class="contact-content">
+                <p>I'm always interested in discussing health informatics projects, collaboration opportunities, or internship positions in healthcare technology.</p>
+                <div class="contact-links">
+                    <a href="mailto:syed.sajjadali114@gmail.com" class="contact-link">
+                        📧 Email
+                    </a>
+                    <a href="https://linkedin.com/in/yourprofile" class="contact-link">
+                        💼 LinkedIn
+                    </a>
+                    <a href="https://github.com/SSA110" class="contact-link">
+                        💻 GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Sajjad Ali PharmD, MSHI. Driving innovation in healthcare through data and technology.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Simple animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
